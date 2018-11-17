@@ -8,11 +8,17 @@ var vizag_map = { center: {lat: 17.686816, lng: 83.218482},
 var markers = [];
 
 // Listing locations with titles and geocodes
-var locations = [
-{title:'Varaha Laskmi Temple', location:{lat:15.238, lng:80.024}},
-{title:'INS kursuna', location:{lat:17.71, lng:83.33}},
-{title:'Hindustan Shipyard', location:{lat:17.68, lng:83.21}},
-{title:'IIMV', location:{lat:17.723047, lng:83.326168}},	
+var locations = [   
+    {
+        title:'Varaha Laskmi Temple', 
+        location:{lat:15.238, lng:80.024}
+    },
+    {
+        title:'INS kursuna', 
+        location:{lat:17.71, lng:83.33}
+    }    
+// {title:'Hindustan Shipyard', location:{lat:17.68, lng:83.21}},
+// {title:'IIMV', location:{lat:17.723047, lng:83.326168}},	
 ];
 
 function initMap(){
@@ -38,33 +44,26 @@ function initMap(){
     }
     map.fitBounds(bounds);
 
- }
+};
 
- // var location_a = function(data){
+var locationA = function(data){
 
- //    this.title = ko.observable(data.title);
- //    this.location = ko.observable(data.location);
+    this.title = ko.observable(data.title);   
 
- // }
+};
 
-function LocationsViewModel(){
+var LocationsViewModel = function(){
+    var self = this;
 
-    // var locations = [
-    // {title:'Varaha Laskmi Temple', location:{lat:15.238, lng:80.024}},
-    // {title:'INS kursuna', location:{lat:17.71, lng:83.33}},
-    // {title:'Hindustan Shipyard', location:{lat:17.68, lng:83.21}},
-    // {title:'IIMV', location:{lat:17.723047, lng:83.326168}},    
-    // ];
+    this.locationList = ko.observableArray([]);
 
-
-    var location_a = 
-    {title:'Varaha Laskmi Temple', location:{lat:15.238, lng:80.024}};   
-    
+    locations.forEach(function(locationSingle){
+        self.locationList.push(new locationA(locationSingle));
+    });
 
  //    var location_a = function(data){
-
-    this.title = ko.observable(location_a.title);
-    this.location = ko.observable(location_a.location);
+    // this.title = ko.observable(location_a.title);
+    // this.location = ko.observable(location_a.location);
 
  // }
 
@@ -78,7 +77,7 @@ function LocationsViewModel(){
     //     self.locationlist.push(new location_a(singlelocation));
     // });
 
-}
+};
 
 ko.applyBindings(new LocationsViewModel());
 

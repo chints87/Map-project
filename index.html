@@ -1,20 +1,21 @@
 <html>
   <head>
-  <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen"/>
-  <script src="js/lib/knockout-3.2.0.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen"/>  
   </head>
   <body>
     <div class="container">      
       <div id=map></div>
       <div class="options-box">
         <h1>Find Your Way in Vizag</h1>
- <!--        <ul id="location-list" data-bind="foreach: location_a"></ul> -->
-          <li data-bind="text: title"></li>
+        <ul id="location-list" data-bind="foreach: locationList">
+          <li data-bind="text: title"></li></ul>
+       <!--  <li data-bind="text: title"></li> -->
       </div>
-    </div>    
+    </div>
+    <script src="js/lib/knockout-3.2.0.js"></script>        
     <script src="js/app.js"></script>
-    <script async defer src=
-        "https://maps.googleapis.com/maps/api/js?key=AIzaSyBND7d2869tm7B1GbjPHaIVFx9x4SmHllg&libraries=geometry,drawing&v=3&callback=initMap">
-    </script>    
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBND7d2869tm7B1GbjPHaIVFx9x4SmHllg&libraries=geometry,drawing&v=3&callback=initMap">
+    </script>
+
   </body>
 </html>
