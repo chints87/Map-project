@@ -7,7 +7,8 @@
       <div id=map></div>
       <div class="options-box">
         <h1>Find Your Way in Vizag</h1>
-        <ul id="location-list" data-bind="foreach: locationList">
+        <input = "text" placeholder="Search here..." data-bind ="value: query, valueUpdate:'afterkeydown'" >
+        <ul id="location-list" data-bind="foreach: filteredList">
           <li data-bind="text: title"></li></ul>
        <!--  <li data-bind="text: title"></li> -->
       </div>

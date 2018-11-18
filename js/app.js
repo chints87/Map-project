@@ -10,16 +10,36 @@ var markers = [];
 // Listing locations with titles and geocodes
 var locations = [   
     {
-        title:'Varaha Laskmi Temple', 
-        location:{lat:15.238, lng:80.024}
+        title:'Hotel Green Park', 
+        location:{lat:17.713882, lng:83.305155}
     },
     {
-        title:'INS kursuna', 
-        location:{lat:17.71, lng:83.33}
-    }    
-// {title:'Hindustan Shipyard', location:{lat:17.68, lng:83.21}},
-// {title:'IIMV', location:{lat:17.723047, lng:83.326168}},	
+        title:'VB', 
+        location:{lat:17.7155120, lng:83.3121050}
+    },
+
+    {	
+    	title:'IIM(Vizag)', 
+    	location:{lat:17.723047, lng:83.326168}
+    },
+
+    {	
+    	title:'Tap The Sports Bar', 
+    	location:{lat:17.71084, lng:83.315786}
+    },
+
+    {	
+    	title:'Chandu Sweets', 
+    	location:{lat:17.724917, lng:83.306217}
+    },
+
 ];
+
+
+// {title:'Hindustan Shipyard', location:{lat:17.68, lng:83.21}},
+// 17.724917,83.306217
+
+
 
 function initMap(){
 	// Building new map
@@ -35,7 +55,7 @@ function initMap(){
     		map:map,
     		position: position,
             title:title,
-            animation: google.maps.Animation.BOUNCE,
+            animation: google.maps.Animation.DROP,
             id:i
     	});
 
@@ -53,13 +73,28 @@ var locationA = function(data){
 };
 
 var LocationsViewModel = function(){
-    var self = this;
+    var self = this; // this refers to the data-bind and self to the viewmodel
 
     this.locationList = ko.observableArray([]);
+    this.query = ko.observable('');
 
     locations.forEach(function(locationSingle){
         self.locationList.push(new locationA(locationSingle));
     });
+
+    self.filteredList = ko.computed(function() {
+    	if(!self.query()){
+    		return self.locationList();
+    	} else {
+    		 return self.locationList().filter(locationA => locationA.title().toLowerCase().indexOf(self.query().toLowerCase()) > -1);
+    	};
+
+    });
+    
+    
+  
+
+
 
  //    var location_a = function(data){
     // this.title = ko.observable(location_a.title);
