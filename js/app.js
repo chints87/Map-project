@@ -105,7 +105,38 @@ var LocationsViewModel = function(){
    //  	    });
    //  	    for (var i = 0; i < markersFiltered.length; i++){
 			// 	markersFiltered[i].setMap(map);
-			// }			
+			// }
+            // var markersFiltered = markers.filter(function(marker){
+            //     return locationFiltered.some(function(a){
+            //         return a.title.title === marker.title;
+            //     });
+                
+            // });
+
+            // var c = markers.filter(function(a){
+            //     return !locationFiltered.find(function(b) {
+            //         return a.title === b.title
+            //     });
+            // });
+
+            // c = markers.filter(x => locationFiltered().filter(y => y.title === x.title).length);
+            // console.log(c);
+            var searchMarkers = [];
+
+            for(var singleMarker in markers){
+                for (var singleLocation in locationFiltered){
+                    if(markers[singleMarker].title === locationFiltered[singleLocation].title()){
+                        
+                        searchMarkers.push(markers[singleMarker].map);
+                    }
+                }
+            }
+            // window.alert(check);
+
+            for(var searchMarker in searchMarkers){
+                markers[searchMarker].setMap(map);
+            }
+
             return locationFiltered
     	};        
     }); 
