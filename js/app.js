@@ -86,52 +86,22 @@ var LocationsViewModel = function(){
 
     self.filteredList = ko.computed(function() {    	
     	if(!self.query()){
-    		return self.locationList();    		
+            showListings();
+    		return self.locationList(); 
+
     	} else {
     		hideListings();    		
     		locationFiltered = self.locationList().filter(locationA => locationA.title().toLowerCase().indexOf(self.query().toLowerCase()) > -1);
-   //          for (var i = 0; i < locationFiltered.length; i++){
-			//     locationFilteredTitle = locationFiltered[i].title;
-			// }
-			//     markersFiltered = markers.filter(function(singlemarker){
-   //  	        return locationFilteredTitle.indexOf(singlemarker.title) > -1;
-   //  	    });			
-
-            // result = markers.filter(singlemarker => marker.title().find(titlein => locationFiltered.title.includes(marker.title)));
-
-
-   //          markersFiltered = markers.filter(function(singlemarker){
-   //  	    	return locationFiltered.indexOf(singlemarker.title) === -1;
-   //  	    });
-   //  	    for (var i = 0; i < markersFiltered.length; i++){
-			// 	markersFiltered[i].setMap(map);
-			// }
-            // var markersFiltered = markers.filter(function(marker){
-            //     return locationFiltered.some(function(a){
-            //         return a.title.title === marker.title;
-            //     });
-                
-            // });
-
-            // var c = markers.filter(function(a){
-            //     return !locationFiltered.find(function(b) {
-            //         return a.title === b.title
-            //     });
-            // });
-
-            // c = markers.filter(x => locationFiltered().filter(y => y.title === x.title).length);
-            // console.log(c);
+ 
             var searchMarkers = [];
 
             for(var singleMarker in markers){
                 for (var singleLocation in locationFiltered){
-                    if(markers[singleMarker].title === locationFiltered[singleLocation].title()){
-                        
+                    if(markers[singleMarker].title === locationFiltered[singleLocation].title()){                        
                         searchMarkers.push(markers[singleMarker].map);
                     }
                 }
-            }
-            // window.alert(check);
+            }            
 
             for(var searchMarker in searchMarkers){
                 markers[searchMarker].setMap(map);
@@ -145,12 +115,17 @@ var LocationsViewModel = function(){
 
 ko.applyBindings(new LocationsViewModel());
 
-
-
+function showListings(){
+    // var bounds = new google.maps.LatLngBounds();
+    for (var i = 0; i < markers.length; i++){
+        markers[i].setMap(map);
+        // bounds.extend(markers[i].position)
+    }
+};
 
 function hideListings(){
 	for (var i = 0; i < markers.length; i++){
 		markers[i].setMap(null);
 	}
+};
 
-}
