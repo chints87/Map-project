@@ -7,6 +7,8 @@ var vizag_map = { center: {lat: 17.686816, lng: 83.218482},
 
 var markers = [];
 
+var check = [1,2,3];
+
 // Listing locations with titles and geocodes
 var locations = [   
     {
@@ -57,8 +59,8 @@ function initMap(){
             title:title,
             animation: google.maps.Animation.DROP,
             id:i
-    	});
-
+    	});        
+                
     	markers.push(marker);   
     	bounds.extend(markers[i].position);	
     }
@@ -82,40 +84,42 @@ var LocationsViewModel = function(){
         self.locationList.push(new locationA(locationSingle));
     });
 
-    self.filteredList = ko.computed(function() {
+    self.filteredList = ko.computed(function() {    	
     	if(!self.query()){
-    		return self.locationList();
+    		return self.locationList();    		
     	} else {
-    		 return self.locationList().filter(locationA => locationA.title().toLowerCase().indexOf(self.query().toLowerCase()) > -1);
-    	};
+    		hideListings();    		
+    		locationFiltered = self.locationList().filter(locationA => locationA.title().toLowerCase().indexOf(self.query().toLowerCase()) > -1);
+   //          for (var i = 0; i < locationFiltered.length; i++){
+			//     locationFilteredTitle = locationFiltered[i].title;
+			// }
+			//     markersFiltered = markers.filter(function(singlemarker){
+   //  	        return locationFilteredTitle.indexOf(singlemarker.title) > -1;
+   //  	    });			
 
-    });
-    
-    
-  
+            // result = markers.filter(singlemarker => marker.title().find(titlein => locationFiltered.title.includes(marker.title)));
 
 
-
- //    var location_a = function(data){
-    // this.title = ko.observable(location_a.title);
-    // this.location = ko.observable(location_a.location);
-
- // }
-
-    // this.title = ko.observable(locations.title); 
-
-    // var self = this;
-
-    // this.locationlist = ko.observableArray([]);
-
-    // locations.forEach(function(singlelocation){
-    //     self.locationlist.push(new location_a(singlelocation));
-    // });
+   //          markersFiltered = markers.filter(function(singlemarker){
+   //  	    	return locationFiltered.indexOf(singlemarker.title) === -1;
+   //  	    });
+   //  	    for (var i = 0; i < markersFiltered.length; i++){
+			// 	markersFiltered[i].setMap(map);
+			// }			
+            return locationFiltered
+    	};        
+    }); 
 
 };
 
 ko.applyBindings(new LocationsViewModel());
 
-// Create list-box in html. ul
-// Create data-bind with locations
 
+
+
+function hideListings(){
+	for (var i = 0; i < markers.length; i++){
+		markers[i].setMap(null);
+	}
+
+}
