@@ -1,6 +1,7 @@
 <html>
   <head>
-  <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen"/>  
+  <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>  
   </head>
   <body>
     <div class="container">      
@@ -9,8 +10,7 @@
         <h1>Find Your Way in Vizag</h1>
         <input = "text" placeholder="Search here..." data-bind ="value: query, valueUpdate:'afterkeydown'" >
         <ul id="location-list" data-bind="foreach: filteredList">
-          <li data-bind="text: title"></li></ul>
-       <!--  <li data-bind="text: title"></li> -->
+          <li data-bind="text: $data.title, click: $parent.markerAlert"></li></ul>       
       </div>
     </div>
     <script src="js/lib/knockout-3.2.0.js"></script>        

@@ -68,33 +68,58 @@ function initMap(){
 
 };
 
-var locationA = function(data){
+// var locationA = function(data){
 
-    this.title = ko.observable(data.title);   
+//     this.title = ko.observable(data.title); 
+//     this.location = ko.observable(data.location);  
 
-};
+// };
+
+
 
 var LocationsViewModel = function(){
     var self = this; // this refers to the data-bind and self to the viewmodel
 
+
     this.locationList = ko.observableArray([]);
     this.query = ko.observable('');
+
+    var locationA = function(data){
+    this.title = ko.observable(data.title); 
+    // this.location = ko.observable(data.location); 
+    }
 
     locations.forEach(function(locationSingle){
         self.locationList.push(new locationA(locationSingle));
     });
+    // When clicked on a list item the corresponding marker is seen on the map
+    this.markerAlert = function(selectedLoc){
+    // Stops the animation when another click event occurs.
+    stopAnimation();
+    // The clicked list item marker animates on the map 
+    for (var selectMarker in markers){
+        if (markers[selectMarker].title === selectedLoc.title()){           
+            return markers[selectMarker].setAnimation(google.maps.Animation.BOUNCE);
+        };
+    };
+   
+    };     
 
+   
+    // Over here a filtered list is created depending on what information is entered in the search box.
     self.filteredList = ko.computed(function() {    	
     	if(!self.query()){
+            // All markers are seen when nothing is entered in the search box and locations are seen in the list
             showListings();
     		return self.locationList(); 
-
     	} else {
-    		hideListings();    		
+            // All markers are initially hidden
+    		hideListings(); 
+            // Depending on what is entered the corressponding matches are shown in the list   		
     		locationFiltered = self.locationList().filter(locationA => locationA.title().toLowerCase().indexOf(self.query().toLowerCase()) > -1);
- 
+            // Adding markers for those locations that are seen in the list
             var searchMarkers = [];
-
+            // Over here based on which locations are filtered
             for(var singleMarker in markers){
                 for (var singleLocation in locationFiltered){
                     if(markers[singleMarker].title === locationFiltered[singleLocation].title()){                        
@@ -108,10 +133,14 @@ var LocationsViewModel = function(){
             }
 
             return locationFiltered
-    	};        
+    	}; 
+
+             
     }); 
 
 };
+
+
 
 ko.applyBindings(new LocationsViewModel());
 
@@ -129,3 +158,17 @@ function hideListings(){
 	}
 };
 
+function stopAnimation(){
+    for (var i = 0; i < markers.length; i++){
+        markers[i].setAnimation(null);
+    }
+
+}
+
+ // // Animate the marker on either selecting list item
+    // $(document).ready(function() { 
+    //     $("#location-list").children().on('click', function(){
+    //             var $locationClicked = $("#location-list").children()[0].innerHTML;
+    //             window.alert($locationClicked);
+    //     });
+    // });
