@@ -48,6 +48,7 @@ function initMap(){
 	map = new google.maps.Map(document.getElementById('map'),vizag_map);
 
 	var bounds = new google.maps.LatLngBounds();
+    var displayWindow = new google.maps.InfoWindow();
 
     // Adding markers on the map with the locations
     for(var i = 0; i < locations.length; i++) {
@@ -61,8 +62,12 @@ function initMap(){
             id:i
     	});        
                 
-    	markers.push(marker);   
+    	markers.push(marker);
+        marker.addListener('click', function(){
+            populateDisplayWindow(this, displayWindow);
+        });   
     	bounds.extend(markers[i].position);	
+
     }
     map.fitBounds(bounds);
 
@@ -163,7 +168,20 @@ function stopAnimation(){
         markers[i].setAnimation(null);
     }
 
-}
+};
+
+function populateDisplayWindow(marker, infowindow){
+    if(infowindow.marker != marker){        
+        infowindow.setContent('');
+        infowindow.marker = marker;        
+        infowindow.setContent('<div>' + marker.title + '</div>' );
+        infowindow.open(map, marker);
+        infowindow.addListener('closeclick', function(){
+            infowindow.marker = null;
+        });
+    }
+
+};
 
  // // Animate the marker on either selecting list item
     // $(document).ready(function() { 
