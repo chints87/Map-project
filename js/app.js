@@ -37,12 +37,6 @@ var locations = [
 
 ];
 
-
-// {title:'Hindustan Shipyard', location:{lat:17.68, lng:83.21}},
-// 17.724917,83.306217
-
-
-
 function initMap(){
 	// Building new map
 	map = new google.maps.Map(document.getElementById('map'),vizag_map);
@@ -75,14 +69,28 @@ function initMap(){
 
 };
 
+//40.7484,-73.9857
+CLIENT_ID = 'V4EOEMQUHFKPCJPPP41L412QV52QWXXINHYSPN3MWYEKLAII';
+CLIENT_SECRET = 'MZ1PW0XKIQSWLH2T1WKIQOIKRH45CEDTO1D5E51VPKG0BBDL';
+V = '20181126';
+for(var i = 0; i < locations.length; i++){
+    var addressURL = 'https://api.foursquare.com/v2/venues/search?ll='+locations[i].location.lat +
+    ','+locations[i].location.lng+'&client_id='+CLIENT_ID+'&client_secret='+CLIENT_SECRET+"&v="+V; 
+    // window.alert(addressURL);
+    window.alert(locations[i].title);
+    $.getJSON(addressURL, function(data) {
+        locationNames = data.response.venues[0].name;
+        
+        window.alert(locationNames);
+    });
+};
+
 // var locationA = function(data){
 
 //     this.title = ko.observable(data.title); 
 //     this.location = ko.observable(data.location);  
 
 // };
-
-
 
 var LocationsViewModel = function(){
     var self = this; // this refers to the data-bind and self to the viewmodel
@@ -105,8 +113,11 @@ var LocationsViewModel = function(){
     stopAnimation();
     // The clicked list item marker animates on the map 
     for (var selectMarker in markers){
-        if (markers[selectMarker].title === selectedLoc.title()){           
-            return markers[selectMarker].setAnimation(google.maps.Animation.BOUNCE);
+        if (markers[selectMarker].title === selectedLoc.title()){                               
+            markers[selectMarker].setAnimation(google.maps.Animation.BOUNCE);
+            // Create new instance of infowindow
+            var displayWindowlist = new google.maps.InfoWindow();
+            populateDisplayWindow(markers[selectMarker], displayWindowlist);          
         };
     };
    
@@ -143,9 +154,8 @@ var LocationsViewModel = function(){
 
 };
 
-
-
 ko.applyBindings(new LocationsViewModel());
+
 
 function showListings(){
     // var bounds = new google.maps.LatLngBounds();
@@ -169,7 +179,7 @@ function stopAnimation(){
 };
 
 function populateDisplayWindow(marker, infowindow){
-    if(infowindow.marker != marker){        
+    if(infowindow.marker != marker){            
         infowindow.setContent('');
         infowindow.marker = marker;        
         infowindow.setContent('<div>' + marker.title + '</div>' );
@@ -181,10 +191,7 @@ function populateDisplayWindow(marker, infowindow){
 
 };
 
- // // Animate the marker on either selecting list item
-    // $(document).ready(function() { 
-    //     $("#location-list").children().on('click', function(){
-    //             var $locationClicked = $("#location-list").children()[0].innerHTML;
-    //             window.alert($locationClicked);
-    //     });
-    // });
+// Initiate the four square api async
+// Send a request with the lat lng parameter 
+// Have a callback function that returns all locations bound in that ltd and lng
+// Then filter out the location from title and if not available send out an error or location not found
