@@ -9,11 +9,16 @@ var markers = [];
 
 var check = [1,2,3];
 
+CLIENT_ID = 'V4EOEMQUHFKPCJPPP41L412QV52QWXXINHYSPN3MWYEKLAII';
+CLIENT_SECRET = 'MZ1PW0XKIQSWLH2T1WKIQOIKRH45CEDTO1D5E51VPKG0BBDL';
+V = '20181126';
+
 // Listing locations with titles and geocodes
 var locations = [   
     {
-        title:'Hotel Green Park', 
-        location:{lat:17.713882, lng:83.305155}
+        title:'Green Park Hotel Visakhapatnam', 
+        // location:{lat:17.713882, lng:83.305155} 
+        location:{lat:17.715709215080107, lng: 83.30631487005911}
     },
     {
         title:'VB', 
@@ -26,8 +31,8 @@ var locations = [
     },
 
     {	
-    	title:'Tap The Sports Bar', 
-    	location:{lat:17.71084, lng:83.315786}
+    	title:'Inox', 
+    	location:{lat:17.711196938507506, lng:83.31579141855502}
     },
 
     {	
@@ -69,28 +74,6 @@ function initMap(){
 
 };
 
-//40.7484,-73.9857
-CLIENT_ID = 'V4EOEMQUHFKPCJPPP41L412QV52QWXXINHYSPN3MWYEKLAII';
-CLIENT_SECRET = 'MZ1PW0XKIQSWLH2T1WKIQOIKRH45CEDTO1D5E51VPKG0BBDL';
-V = '20181126';
-for(var i = 0; i < locations.length; i++){
-    var addressURL = 'https://api.foursquare.com/v2/venues/search?ll='+locations[i].location.lat +
-    ','+locations[i].location.lng+'&client_id='+CLIENT_ID+'&client_secret='+CLIENT_SECRET+"&v="+V; 
-    // window.alert(addressURL);
-    window.alert(locations[i].title);
-    $.getJSON(addressURL, function(data) {
-        locationNames = data.response.venues[0].name;
-        
-        window.alert(locationNames);
-    });
-};
-
-// var locationA = function(data){
-
-//     this.title = ko.observable(data.title); 
-//     this.location = ko.observable(data.location);  
-
-// };
 
 var LocationsViewModel = function(){
     var self = this; // this refers to the data-bind and self to the viewmodel
@@ -112,8 +95,8 @@ var LocationsViewModel = function(){
     // Stops the animation when another click event occurs.
     stopAnimation();
     // The clicked list item marker animates on the map 
-    for (var selectMarker in markers){
-        if (markers[selectMarker].title === selectedLoc.title()){                               
+    for (var selectMarker in markers){        
+        if (markers[selectMarker].title === selectedLoc.title()){ 
             markers[selectMarker].setAnimation(google.maps.Animation.BOUNCE);
             // Create new instance of infowindow
             var displayWindowlist = new google.maps.InfoWindow();
@@ -178,11 +161,22 @@ function stopAnimation(){
 
 };
 
+
 function populateDisplayWindow(marker, infowindow){
     if(infowindow.marker != marker){            
         infowindow.setContent('');
-        infowindow.marker = marker;        
-        infowindow.setContent('<div>' + marker.title + '</div>' );
+        infowindow.marker = marker; 
+        // window.alert(marker.position.lat());              
+        var addressURL = 'https://api.foursquare.com/v2/venues/search?ll='+ marker.position.lat() +
+         ','+ marker.position.lng()+'&client_id='+CLIENT_ID+'&client_secret='+CLIENT_SECRET+"&v="+V;
+        // window.alert(addressURL);
+        $.getJSON(addressURL, function(data) {
+            locationAddress = data.response.venues[0].location.formattedAddress;
+            infowindow.setContent('<div>' + marker.title + '</div>' + '<div>' + locationAddress + '</div>');                      
+        }).error(function(e){            
+            infowindow.setContent('<div>There was an error calling the API</div>'); 
+        });
+        // infowindow.setContent('<div>' + marker.title + '</div>' + '<div>' + marker.test + '</div>');     
         infowindow.open(map, marker);
         infowindow.addListener('closeclick', function(){
             infowindow.marker = null;
