@@ -65,6 +65,8 @@ function initMap(){
     	markers.push(marker);
         marker.addListener('click', function(){
             populateDisplayWindow(this, displayWindow);
+            stopAnimation();
+            this.setAnimation(google.maps.Animation.BOUNCE);
         });   
     	bounds.extend(markers[i].position);	
 
@@ -122,20 +124,16 @@ var LocationsViewModel = function(){
     		hideListings(); 
             // Depending on what is entered the corressponding matches are shown in the list   		
     		locationFiltered = self.locationList().filter(locationA => locationA.title().toLowerCase().indexOf(self.query().toLowerCase()) > -1);
-            // Adding markers for those locations that are seen in the list
-            var searchMarkers = [];
-            // Over here based on which locations are filtered
+            // Adding markers for those locations that are seen in the list          
+           
             for(var singleMarker in markers){
                 for (var singleLocation in locationFiltered){
-                    if(markers[singleMarker].title === locationFiltered[singleLocation].title()){                        
-                        searchMarkers.push(markers[singleMarker].map);
+                    if(markers[singleMarker].title === locationFiltered[singleLocation].title()){                   
+                        // Over here markers are seen based on which locations are filtered
+                       markers[singleMarker].setMap(map);                     
                     }
                 }
-            }            
-
-            for(var searchMarker in searchMarkers){
-                markers[searchMarker].setMap(map);
-            }
+            }    
 
             return locationFiltered
     	}; 
