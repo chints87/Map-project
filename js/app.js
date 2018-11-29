@@ -198,3 +198,13 @@ function populateDisplayWindow(marker, infowindow){
 
 };
 
+function toggle(){
+    // window.alert('heelo');    
+    var x = document.getElementByClassName('options-box')
+    if (x.style.display === none){
+        window.alert('heelo');  
+        x.style.display = block;
+    } else{
+        x.style.display = none;
+    };
+};

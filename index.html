@@ -4,9 +4,13 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>  
   </head>
   <body>
+    <h1 class="border"></h1>
     <div class="container">      
-      <div id=map></div>
+      <div id=map></div>      
       <div class="options-box">
+        <div class="menu" onclick="toggle()"></div>
+        <div class="menu" onclick="toggle()"></div>
+        <div class="menu" onclick="toggle()"></div>          
         <h1>Find Your Way in Vizag</h1>
         <input = "text" placeholder="Search here..." data-bind ="value: query, valueUpdate:'afterkeydown'" >
         <ul id="location-list" data-bind="foreach: filteredList">
