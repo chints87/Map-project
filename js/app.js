@@ -1,14 +1,15 @@
 
-// Creating a variable to enter necessary information to create map 
-var vizag_map = { center: {lat: 17.686816, lng: 83.218482},
-       		zoom: 13,
-       		mapTypeControl: false
+// Initailizing variable to enter interested location (Make reference to the geolocation utility tool)
+var locationMap = { center: {lat: 17.686816, lng: 83.218482},
+            zoom: 13,
+            mapTypeControl: false
 };
 
 var markers = [];
 
-var check = [1,2,3];
+// var check = [1,2,3];
 
+//(Check if this requires to be hidden)
 CLIENT_ID = 'V4EOEMQUHFKPCJPPP41L412QV52QWXXINHYSPN3MWYEKLAII';
 CLIENT_SECRET = 'MZ1PW0XKIQSWLH2T1WKIQOIKRH45CEDTO1D5E51VPKG0BBDL';
 V = '20181126';
@@ -25,73 +26,83 @@ var locations = [
         location:{lat:17.7155120, lng:83.3121050}
     },
 
-    {	
-    	title:'IIM(Vizag)', 
-    	location:{lat:17.723047, lng:83.326168}
+    {   
+        title:'IIM(Vizag)', 
+        location:{lat:17.723047, lng:83.326168}
     },
 
-    {	
-    	title:'Inox', 
-    	location:{lat:17.711196938507506, lng:83.31579141855502}
+    {   
+        title:'Inox', 
+        location:{lat:17.711196938507506, lng:83.31579141855502}
     },
 
-    {	
-    	title:'Chandu Sweets', 
-    	location:{lat:17.724917, lng:83.306217}
+    {   
+        title:'Chandu Sweets', 
+        location:{lat:17.724917, lng:83.306217}
     },
 
 ];
 
 function initMap(){
-	// Building new map
-	map = new google.maps.Map(document.getElementById('map'),vizag_map);
+    // Building new map
+    map = new google.maps.Map(document.getElementById('map'),locationMap);
 
-	var bounds = new google.maps.LatLngBounds();
+    // Create instances from classes in google maps api
+    var bounds = new google.maps.LatLngBounds();
     var displayWindow = new google.maps.InfoWindow();
 
     // Adding markers on the map with the locations
     for(var i = 0; i < locations.length; i++) {
-    	var position = locations[i].location
-    	var title = locations[i].title
-    	var marker = new google.maps.Marker({
-    		map:map,
-    		position: position,
+        var position = locations[i].location
+        var title = locations[i].title
+        var marker = new google.maps.Marker({
+            map:map,
+            position: position,
             title:title,
             animation: google.maps.Animation.DROP,
             id:i
-    	});        
-                
-    	markers.push(marker);
+        });        
+        
+        // A location maker created is added to a collection of markers        
+        markers.push(marker);
+        // An event listener that responds with animation and a display window when the marker on the map is clicked
         marker.addListener('click', function(){
             populateDisplayWindow(this, displayWindow);
             stopAnimation();
             this.setAnimation(google.maps.Animation.BOUNCE);
         });   
-    	bounds.extend(markers[i].position);	
+        // (Extends map to include all markers)
+        bounds.extend(markers[i].position); 
 
     }
+    // (Extends map to include all markers)
     map.fitBounds(bounds);
 
 };
 
+// The viewmodel to connect view, what we see on the webpage 
+// to the model, data stored in the database or in the array for this
+// case 
 
 var LocationsViewModel = function(){
-    var self = this; // this refers to the data-bind and self to the viewmodel
+    var self = this; 
 
-
+    // Connecting an element in HTML to model, in this case an array.
     this.locationList = ko.observableArray([]);
     this.query = ko.observable('');
-
+    
+    //Initialization to assign view element with model data
     var locationA = function(data){
-    this.title = ko.observable(data.title); 
-    // this.location = ko.observable(data.location); 
+    this.title = ko.observable(data.title);     
     }
-
+    
+    //Creating view list from model array by creating elements 
+    //and assigning it with object-literal values from the model data
     locations.forEach(function(locationSingle){
         self.locationList.push(new locationA(locationSingle));
     });
     // When clicked on a list item the corresponding marker is seen on the map
-    this.markerAlert = function(selectedLoc){
+    self.markerAlert = function(selectedLoc){
     // Stops the animation when another click event occurs.
     stopAnimation();
     // The clicked list item marker animates on the map 
@@ -108,18 +119,17 @@ var LocationsViewModel = function(){
 
    
     // Over here a filtered list is created depending on what information is entered in the search box.
-    self.filteredList = ko.computed(function() {    	
-    	if(!self.query()){
+    self.filteredList = ko.computed(function() {        
+        if(!self.query()){
             // All markers are seen when nothing is entered in the search box and locations are seen in the list
             showListings();
-    		return self.locationList(); 
-    	} else {
+            return self.locationList(); 
+        } else {
             // All markers are initially hidden
-    		hideListings(); 
-            // Depending on what is entered the corressponding matches are shown in the list   		
-    		locationFiltered = self.locationList().filter(locationA => locationA.title().toLowerCase().indexOf(self.query().toLowerCase()) > -1);
-            // Adding markers for those locations that are seen in the list          
-           
+            hideListings(); 
+            // Depending on what is entered the corressponding matches are shown in the list        
+            locationFiltered = self.locationList().filter(locationA => locationA.title().toLowerCase().indexOf(self.query().toLowerCase()) > -1);
+            // Adding markers for those locations that are seen in the list           
             for(var singleMarker in markers){
                 for (var singleLocation in locationFiltered){
                     if(markers[singleMarker].title === locationFiltered[singleLocation].title()){                   
@@ -128,18 +138,19 @@ var LocationsViewModel = function(){
                     }
                 }
             }    
-
-            return locationFiltered
-    	}; 
+            // The filtered list based on the query information is returned
+            return locationFiltered;
+        }; 
 
              
     }); 
 
 };
 
+//Activatation to connect view to model 
 ko.applyBindings(new LocationsViewModel());
 
-
+//Displays all markers in th locations array on the map
 function showListings(){
     // var bounds = new google.maps.LatLngBounds();
     for (var i = 0; i < markers.length; i++){
@@ -148,12 +159,14 @@ function showListings(){
     }
 };
 
+//Hides all markers in the locations array from the map
 function hideListings(){
-	for (var i = 0; i < markers.length; i++){
-		markers[i].setMap(null);
-	}
+    for (var i = 0; i < markers.length; i++){
+        markers[i].setMap(null);
+    }
 };
 
+//Stops animation of all markers displayed on the map
 function stopAnimation(){
     for (var i = 0; i < markers.length; i++){
         markers[i].setAnimation(null);
@@ -161,22 +174,22 @@ function stopAnimation(){
 
 };
 
-
+//Displays information in the infowindow of the marker
 function populateDisplayWindow(marker, infowindow){
     if(infowindow.marker != marker){            
         infowindow.setContent('');
         infowindow.marker = marker; 
-        // window.alert(marker.position.lat());              
+        // Initialization to access endpoints of location from the Foursquare API.           
         var addressURL = 'https://api.foursquare.com/v2/venues/search?ll='+ marker.position.lat() +
          ','+ marker.position.lng()+'&client_id='+CLIENT_ID+'&client_secret='+CLIENT_SECRET+"&v="+V;
-        // window.alert(addressURL);
+        // Obtain address of the location from the Foursquare API and placing in the marker infowindow display
         $.getJSON(addressURL, function(data) {
             locationAddress = data.response.venues[0].location.formattedAddress;
-            infowindow.setContent('<div>' + marker.title + '</div>' + '<div>' + locationAddress + '</div>');                      
+            infowindow.setContent('<div>' + marker.title + '</div>' + '<div>' + locationAddress + '</div>');
+            //For a error response recieved from the FourSquare API a messeage is displayed in the infowindow                      
         }).error(function(e){            
             infowindow.setContent('<div>There was an error calling the API</div>'); 
-        });
-        // infowindow.setContent('<div>' + marker.title + '</div>' + '<div>' + marker.test + '</div>');     
+        });        
         infowindow.open(map, marker);
         infowindow.addListener('closeclick', function(){
             infowindow.marker = null;
@@ -185,7 +198,3 @@ function populateDisplayWindow(marker, infowindow){
 
 };
 
-// Initiate the four square api async
-// Send a request with the lat lng parameter 
-// Have a callback function that returns all locations bound in that ltd and lng
-// Then filter out the location from title and if not available send out an error or location not found
