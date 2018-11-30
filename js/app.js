@@ -198,13 +198,15 @@ function populateDisplayWindow(marker, infowindow){
 
 };
 
-function toggle(){
-    // window.alert('heelo');    
-    var x = document.getElementByClassName('options-box')
-    if (x.style.display === none){
-        window.alert('heelo');  
-        x.style.display = block;
-    } else{
-        x.style.display = none;
+function toggle(){       
+    var x = document.getElementById('nav');
+    var y = document.getElementById('options-box'); 
+    // var $mapdisplay = $("body .container #map");   
+    if (y.style.display === "none"){          
+        y.style.display = "block";
+        x.style.left = "330px";
+    } else {
+        y.style.display = "none"; 
+        x.style.left="1px";      
     };
 };

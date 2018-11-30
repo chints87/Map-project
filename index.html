@@ -7,16 +7,18 @@
     <h1 class="border"></h1>
     <div class="container">      
       <div id=map></div>      
-      <div class="options-box">
-        <div class="menu" onclick="toggle()"></div>
-        <div class="menu" onclick="toggle()"></div>
-        <div class="menu" onclick="toggle()"></div>          
+      <div id="options-box">                   
         <h1>Find Your Way in Vizag</h1>
         <input = "text" placeholder="Search here..." data-bind ="value: query, valueUpdate:'afterkeydown'" >
         <ul id="location-list" data-bind="foreach: filteredList">
           <li data-bind="text: $data.title, click: $parent.markerAlert"></li></ul>       
       </div>
-    </div>
+      <button id="nav" onclick="toggle()">
+        <div class="menu"></div>
+        <div class="menu"></div>
+        <div class="menu"></div>
+      </button>    
+    </div>     
     <script src="js/lib/knockout-3.2.0.js"></script>        
     <script src="js/app.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBND7d2869tm7B1GbjPHaIVFx9x4SmHllg&libraries=places&v=3&callback=initMap">
