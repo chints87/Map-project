@@ -32,6 +32,12 @@ html, body {
 li:hover {
   color: blue; }
 
+li{
+  font-size: 18;
+  margin-top: 20px;
+
+}  
+
 .border{
   background-color: black;
   margin-top: 0px;
@@ -48,7 +54,43 @@ li:hover {
 
 #nav{
   display:inline-block;
-  
+  left: 330px;
   position: relative; 
   background-color:yellow;
 }
+
+@media only screen and (max-width: 680px){
+  #options-box{
+    width:220px;
+  }
+
+  li{
+    font-size: 12;
+    margin-top: 5px;
+  }
+
+  h1{
+    font-size: 12;
+    margin-top: 40px;
+  }
+
+  #nav{
+    left: 180px;
+    position: absolute; 
+    background-color:yellow;
+  }
+
+}
+
+@media only screen and (max-width: 1024px){
+  h1{
+      font-size: 28;
+      margin-top: 60px;
+    }
+
+  li{
+    font-size: 20;
+    margin-top: 5px;
+  }  
+
+}  
