@@ -74,6 +74,7 @@ Some code here has been used, referred to or modified from the following:
 2) [Stackoverflow - filtering array from another array](https://stackoverflow.com/questions/31005396/filter-array-of-objects-with-another-array-of-objects)
 3) [Stackoverflow - filtering array based on query search ](https://stackoverflow.com/questions/47741328/filtering-list-with-knockout) 
 4) [Knockout documentation](https://knockoutjs.com/documentation/click-binding.html)
+5) [w3schools](https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_style_display)
 
 
 
