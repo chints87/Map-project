@@ -75,6 +75,7 @@ Some code here has been used, referred to or modified from the following:
 3) [Stackoverflow - filtering array based on query search ](https://stackoverflow.com/questions/47741328/filtering-list-with-knockout) 
 4) [Knockout documentation](https://knockoutjs.com/documentation/click-binding.html)
 5) [w3schools](https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_style_display)
+6) [gitbub](https://gist.github.com/paulallies/0052fab554b14bbfa3ef)
 
 
 
