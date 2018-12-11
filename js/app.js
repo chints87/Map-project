@@ -22,7 +22,7 @@ var map;
 let displayWindow;
 function initMap() {
     // Building new map
-    map = new google.maps.Map(document.getElementsByClassName('map'), locationMap);
+    map = new google.maps.Map(document.getElementById('map'), locationMap);
     // Create instances from classes in google maps api
     var bounds = new google.maps.LatLngBounds();
     displayWindow = new google.maps.InfoWindow();
