@@ -4,8 +4,8 @@ The script uses APIs that helps to view locations in a list, that can be filtere
 ### Installation 
 Clone the Github repository from the following steps: 
 ```
-$git clone the following Git link 
-$cd 
+$git clone https://github.com/chints87/Map-project.git *name of folder*
+$cd *name of folder*
 ```
 ### Usage
 
@@ -29,6 +29,7 @@ https://api.foursquare.com/v2/venues/search?parameters+'&client_id='+CLIENT_ID+'
 5.Open **index.html** file to load map.
 
 6 .To change the location modify **locationMap** to the city coordinates you want to add 
+
 ```javascript
 // Creating a variable to enter necessary information to create map 
 var locationMap = { center: {lat: 17.686816, lng: 83.218482},
@@ -36,7 +37,7 @@ var locationMap = { center: {lat: 17.686816, lng: 83.218482},
             mapTypeControl: false
 };
 ```
-7.Add locations that you are interested, by hard-coding location names and co-ordinates you are interested in
+7.Add locations that you are interested, by hard-coding location names and co-ordinates you are interested in the *js/data.js* file
 ```javascript
 // Listing locations with titles and geocodes
 var locations = [   
@@ -66,6 +67,38 @@ var locations = [
     },
 ];
 ```
+7. Install **node.js** shown in the link below
+
+8. Install **gulp** by entering this in your CLI. Make sure to install this globally
+```
+npm install --g gulp-cli
+```
+
+9. In the project folder the git repo was cloned and enter the required information
+```
+npm init 
+```
+
+10. In the project folder install gulp as a development dependency
+```
+npm install --save-dev gulp
+```
+
+11. In the project folder install *Sass*
+```
+npm install gulp-sass  
+```
+
+12. In the project folder install **autoprefixer**
+```
+npm install --save-dev gulp-autoprefixer
+```
+
+13. In the root directory type to make live changes to the **index.html** using the *.scss*
+```
+gulp watch
+```
+
 # Acknowledgment 
 
 Some code here has been used, referred to or modified from the following:
@@ -75,7 +108,9 @@ Some code here has been used, referred to or modified from the following:
 3) [Stackoverflow - filtering array based on query search ](https://stackoverflow.com/questions/47741328/filtering-list-with-knockout) 
 4) [Knockout documentation](https://knockoutjs.com/documentation/click-binding.html)
 5) [w3schools](https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_style_display)
-6) [gitbub](https://gist.github.com/paulallies/0052fab554b14bbfa3ef)
+6) [github](https://gist.github.com/paulallies/0052fab554b14bbfa3ef)
+7) [Node.js](https://nodejs.org/en/)
+8) [Sass](https://sass-lang.com/)
 
 
 
