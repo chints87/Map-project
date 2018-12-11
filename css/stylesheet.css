@@ -33,7 +33,7 @@ li:hover {
   color: blue; }
 
 li {
-  font-size: 18;
+  font-size: 18px;
   margin-top: 20px; }
 
 .border {
@@ -58,10 +58,10 @@ li {
   #options-box {
     width: 220px; }
   li {
-    font-size: 12;
+    font-size: 12px;
     margin-top: 5px; }
   h1 {
-    font-size: 12;
+    font-size: 12px;
     margin-top: 40px; }
   #nav {
     left: 180px;
@@ -70,8 +70,8 @@ li {
 
 @media only screen and (max-width: 1024px) {
   h1 {
-    font-size: 28;
+    font-size: 28px;
     margin-top: 60px; }
   li {
-    font-size: 20;
+    font-size: 20px;
     margin-top: 5px; } }
